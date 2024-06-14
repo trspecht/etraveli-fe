@@ -31,7 +31,7 @@ export const Info = (props: InfoProps) => {
       <Pills>
         {ratings?.map((rating) => {
           return (
-              <Pill text={rating.Source + ": " + rating.Value}></Pill>
+              <Pill key={rating.Source} text={rating.Source + ": " + rating.Value}></Pill>
           )
         })}
       </Pills>

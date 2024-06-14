@@ -15,6 +15,18 @@ const initialState = {
   searchInput: ""
 } as State
 
+const addOrUpdateMovieList = (movieList: Movie[], movie: Movie) => {
+  const newList = [...movieList]
+  const index = newList.findIndex(item => item.episode_id === movie.episode_id)
+
+  if (index === -1) {
+    newList.push(movie)
+  } else {
+    newList[index] = movie
+  }
+  return newList
+}
+
 const moviesSlice = createSlice({
   name: "movies",
   initialState,
@@ -22,8 +34,8 @@ const moviesSlice = createSlice({
     setIsLoading(state, action: PayloadAction<boolean>) {
       state.isLoading = action.payload
     },
-    setMoviesList(state, action: PayloadAction<Movie[]>) {
-      state.moviesList = action.payload
+    setMoviesList(state, action: PayloadAction<Movie>) {
+      state.moviesList = addOrUpdateMovieList(state.moviesList, action.payload)
     },
     setSortOption(state, action: PayloadAction<string>) {
       state.sortOption = action.payload

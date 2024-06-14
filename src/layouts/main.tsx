@@ -40,13 +40,6 @@ export default function Main() {
   }, [moviesList])
 
   useEffect(() => {
-    if (selectedMovie && selectedMovie.poster === undefined) {
-      const fullMoviesList = fetchMoviesExtraInfo(selectedMovie)
-      console.log(fullMoviesList)
-    }
-  }, [selectedMovie])
-
-  useEffect(() => {
     if (sortOption) {
       setLocalMoviesList(_.orderBy(moviesList, [sortOption, "asc"]))
     }
@@ -64,13 +57,13 @@ export default function Main() {
       axios.get<MovieResponse>(baseURL)
         .then(response => {
           const moviesResponseData: MovieResponse = response.data
-          dispatch(setMoviesList(moviesResponseData.results))
+         moviesResponseData.results.map((movie) => fetchMoviesExtraInfo(movie))
         })
         .catch((error) => console.log("ERROR: ", error))
         .finally(() =>  dispatch(setIsLoading(false)))
   }
 
-  const fetchMoviesExtraInfo = (movie: Movie) => {
+  const fetchMoviesExtraInfo = (movie: Movie): Movie => {
     const episodes = ["I", "II", "III", "IV", "V", "VI"]
     const searchURL = `${omdbBaseURL}t=star+wars+episode+${episodes[movie.episode_id - 1]}`
     const tempMovie: Movie = _.cloneDeep(movie)
@@ -80,7 +73,7 @@ export default function Main() {
         const OMDBResponseData: OMDBResponse = response.data
         tempMovie.poster = OMDBResponseData.Poster
         tempMovie.ratings = OMDBResponseData.Ratings
-        setSelectedMovie(tempMovie)
+        dispatch(setMoviesList(tempMovie))
       })
       .catch((error) => console.log("ERROR: ", error))
 
@@ -117,42 +110,33 @@ const getAverageRatings = (ratings: Rating[]): number => {
       {!isLoading &&
       <>
       <TopBar />
-
       <SeparatorH />
-
       <Container>
-      <Content>
-        {localMoviesList?.map((movie) =>
-          <MovieItem
-            key={movie.episode_id}
-            isSelected={movie.episode_id === selectedMovie?.episode_id}
-            episode={movie.episode_id}
-            title={movie.title}
-            rating={movie.ratings && getAverageRatings(movie.ratings)}
-            releaseDate={movie.release_date}
-            onRowClick={() => setSelectedMovie(movie)}
+        <Content>
+          {localMoviesList?.map((movie) =>
+            <MovieItem
+              key={movie.episode_id}
+              isSelected={movie.episode_id === selectedMovie?.episode_id}
+              episode={movie.episode_id}
+              title={movie.title}
+              rating={movie.ratings && getAverageRatings(movie.ratings)}
+              releaseDate={movie.release_date}
+              onRowClick={() => setSelectedMovie(movie)}
+            />
+          )}
+        </Content>
+        <SeparatorV />
+        <Content>
+          <Info
+            title={selectedMovie?.title || ""}
+            description={selectedMovie?.opening_crawl || ""}
+            poster={selectedMovie?.poster || ""}
+            director={selectedMovie?.director || ""}
+            averageRating={getAverageRatings(selectedMovie?.ratings || [])}
+            ratings={selectedMovie?.ratings || []}
           />
-        )}
-      </Content>
-
-
-      <SeparatorV />
-
-
-      <Content>
-
-        <Info
-          title={selectedMovie?.title || ""}
-          description={selectedMovie?.opening_crawl || ""}
-          poster={selectedMovie?.poster || ""}
-          director={selectedMovie?.director || ""}
-          averageRating={getAverageRatings(selectedMovie?.ratings || [])}
-          ratings={selectedMovie?.ratings || []}
-        />
-      </Content>
-
+        </Content>
       </Container>
-
       </>
       }
     </MainContainer>
