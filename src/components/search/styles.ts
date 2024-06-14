@@ -19,6 +19,12 @@ export const InnerContainer = styled.div`
   align-items: center;
 `
 
+export const Icon = styled.img`
+  height: 14px;
+  width: 14px;
+  margin-right: 4px;
+`
+
 export const Input = styled.input`
   background-color: transparent;
   text-decoration: none;

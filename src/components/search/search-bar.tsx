@@ -1,7 +1,9 @@
 import { useDispatch } from "react-redux"
-import { Container, InnerContainer, Input } from "./styles"
+import { Container, Icon, InnerContainer, Input } from "./styles"
 import { ChangeEvent } from "react"
 import { setSearchInput } from "../../store/reducers/movies"
+import strings from "../../constants/strings"
+import searchIcon from '../../assets/magnifying-glass-solid.svg'
 
 export const SearchBar = () => {
   const dispatch = useDispatch()
@@ -14,7 +16,8 @@ export const SearchBar = () => {
   return (
     <Container>
       <InnerContainer>
-        <Input onChange={(input) => handleInputChange(input)}/>
+        <Icon src={searchIcon}/>
+        <Input onChange={(input) => handleInputChange(input)} placeholder={strings.type_to_filter}/>
       </InnerContainer>
     </Container>
   )
