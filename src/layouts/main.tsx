@@ -19,7 +19,7 @@ export default function Main() {
   const isLoading = useSelector<AppState, boolean>((state) => state.movies.isLoading)
   const moviesList = useSelector<AppState, Movie[]>((state) => state.movies.moviesList)
   const sortOption = useSelector<AppState, string | null>((state) => state.movies.sortOption)
-  const searchInput = useSelector<AppState, string | null>((state) => state.movies.searchInput)
+  const searchInput = useSelector<AppState, string>((state) => state.movies.searchInput)
 
   const [localMoviesList, setLocalMoviesList] = useState<Movie[]>(moviesList)
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null)
@@ -45,12 +45,10 @@ export default function Main() {
   }, [sortOption])
 
   useEffect(() => {
-    if (searchInput ) {
-      const filteredList = _.filter(moviesList, (movie) => {
-        return _.includes(movie.title.toLowerCase(), searchInput.toLowerCase())
-      })
-      setLocalMoviesList(filteredList)
-    }
+    const filteredList = _.filter(moviesList, (movie) => {
+      return _.includes(movie.title.toLowerCase(), searchInput.toLowerCase())
+    })
+    setLocalMoviesList(filteredList)
   }, [searchInput])
 
   const fetchMovies = () => {

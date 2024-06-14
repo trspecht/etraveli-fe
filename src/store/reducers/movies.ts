@@ -5,14 +5,14 @@ interface State {
   isLoading: boolean
   moviesList: Movie[]
   sortOption: string | null
-  searchInput: string | null
+  searchInput: string
 }
 
 const initialState = {
   isLoading: false,
   moviesList: [] as Movie[],
   sortOption: null,
-  searchInput: null
+  searchInput: ""
 } as State
 
 const moviesSlice = createSlice({
