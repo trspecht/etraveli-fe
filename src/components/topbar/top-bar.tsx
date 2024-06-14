@@ -28,7 +28,11 @@ export const TopBar = () => {
       {isSortOpen &&
         <Options>
           {Object.entries(SortOptions).map(([key, value]) =>
-            <Option onClick={() => handleSort(value)}>{key}</Option>
+            <Option
+              key={key}
+              onClick={() => handleSort(value)}>
+                {key}
+            </Option>
           )}
         </Options>
       }

@@ -5,6 +5,16 @@ export type MovieResponse = {
   results: Movie[]
 }
 
+export type OMDBResponse = {
+    Poster: string
+    Ratings: Rating[]
+}
+
+export type Rating = {
+  Source: string
+  Value: string
+}
+
 export type Movie = {
   title: string
   episode_id: number
@@ -20,4 +30,7 @@ export type Movie = {
   created: Date
   edited: Date
   url: string
+  poster: string
+  ratings: Rating[]
+  averageRating: number
 }
