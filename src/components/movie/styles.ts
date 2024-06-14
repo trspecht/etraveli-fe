@@ -17,8 +17,9 @@ export const Item = styled.div<ItemProps>`
   padding: 16px;
   border-bottom: 1px solid ${colors.gray_secondary};
   color: ${colors.gray_primary};
-  justify-content: space-between;
   background-color: ${(props) => props.selected ? colors.gray_secondary : "white"};
+  align-items: baseline;
+  gap: 16px;
 `
 
 export const Title = styled.a`
@@ -28,8 +29,14 @@ export const Title = styled.a`
 `
 
 export const Text = styled.a`
+  display: flex;
+  flex: 1;
   color: ${colors.gray_primary};
   font-size: 12px;
+`
+
+export const Date = styled(Text)`
+  justify-content: end;
 `
 
 export const Description = styled.span`
@@ -38,6 +45,12 @@ export const Description = styled.span`
   flex-direction: column;
   color: ${colors.gray_primary};
   font-size: 14px;
+`
+
+export const AverageRating = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 `
 
 export const Poster = styled.img`

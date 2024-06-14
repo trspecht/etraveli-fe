@@ -20,7 +20,9 @@ const RoundSpinner = styled.div<SpinnerProps>`
     }
   }
 
-  align-self: "center";
+  position: absolute;
+  left: 50%;
+  top: 20%;
   height: ${(props) => (props.size)}px;
   width: ${(props) => (props.size)}px;
   border: 8px solid gray;

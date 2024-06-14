@@ -7,7 +7,8 @@ import { setSortOption } from "../../store/reducers/movies"
 
 export enum SortOptions {
   Date = "release_date",
-  Episode = "episode_id"
+  Episode = "episode_id",
+  Ratings = "average_rating"
 }
 
 export const TopBar = () => {

@@ -1,8 +1,9 @@
 import _ from "lodash"
 import { Rating } from "../../types/movies"
-import { Container, Description, Pills, Poster, Title } from "./styles"
+import { AverageRating, Container, Description, Pills, Poster, Title } from "./styles"
 import strings from "../../constants/strings"
 import { Pill } from "../pill/pill"
+import { RatingStars } from "../rating/rating"
 
 interface InfoProps {
   title: string
@@ -24,16 +25,17 @@ export const Info = (props: InfoProps) => {
     content =
     <>
       <Title>{title}</Title>
-      {hasPosterURL && <Poster src={poster} /> }
+      {hasPosterURL && <Poster src={poster} />}
       <Description>{description}</Description>
       <Description>{strings.directed_by + director}</Description>
-      <Description>{strings.average_rating + averageRating}</Description>
+      <AverageRating>
+        <Description>{strings.average_rating}</Description>
+        <RatingStars rating={averageRating/10}/>
+      </AverageRating>
       <Pills>
-        {ratings?.map((rating) => {
-          return (
-              <Pill key={rating.Source} text={rating.Source + ": " + rating.Value}></Pill>
-          )
-        })}
+        {ratings?.map((rating) =>
+          <Pill key={rating.Source} text={rating.Source + ": " + rating.Value}></Pill>
+        )}
       </Pills>
     </>
   }

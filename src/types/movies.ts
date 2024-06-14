@@ -32,5 +32,5 @@ export type Movie = {
   url: string
   poster: string
   ratings: Rating[]
-  averageRating: number
+  average_rating: number
 }

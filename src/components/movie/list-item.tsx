@@ -1,5 +1,6 @@
 import strings from "../../constants/strings"
-import { Item, Text } from "./styles"
+import { RatingStars } from "../rating/rating"
+import { Date, Item, Text } from "./styles"
 
 interface MovieItemProps {
   isSelected: boolean
@@ -17,8 +18,8 @@ export const MovieItem = (props: MovieItemProps) => {
     <Item selected={isSelected} onClick={onRowClick}>
       <Text>{strings.episode + episode.toString()}</Text>
       <Text>{title}</Text>
-      <Text>{rating}</Text>
-      <Text>{releaseDate.toString()}</Text>
+      {rating && <RatingStars rating={rating/10} />}
+      <Date>{releaseDate.toString()}</Date>
     </Item>
   )
 }
