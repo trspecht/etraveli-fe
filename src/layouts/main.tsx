@@ -11,12 +11,15 @@ import { TopBar } from "../components/topbar/top-bar";
 import { MovieItem } from "../components/movie/list-item";
 import { Info } from "../components/movie/info";
 
-const BASE_URL = "https://swapi.dev/api/films/?format=json"
+const baseURL = import.meta.env.VITE_APP_API_URL as string
 
 export default function Main() {
   const dispatch = useDispatch()
+
   const isLoading = useSelector<AppState, boolean>((state) => state.movies.isLoading)
   const moviesList = useSelector<AppState, Movie[]>((state) => state.movies.moviesList)
+  const sortOption = useSelector<AppState, string | null>((state) => state.movies.sortOption)
+  const searchInput = useSelector<AppState, string | null>((state) => state.movies.searchInput)
 
   const [localMoviesList, setLocalMoviesList] = useState<Movie[]>(moviesList)
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null)
@@ -31,13 +34,28 @@ export default function Main() {
 
   useEffect(() => {
     if (hasMoviesList) {
-      setLocalMoviesList(_.orderBy(moviesList, ["episode_id"], "asc"))
+      setLocalMoviesList(moviesList)
     }
   }, [moviesList])
 
+  useEffect(() => {
+    if (sortOption) {
+      setLocalMoviesList(_.orderBy(moviesList, [sortOption, "asc"]))
+    }
+  }, [sortOption])
+
+  useEffect(() => {
+    if (searchInput ) {
+      const filteredList = _.filter(moviesList, (movie) => {
+        return _.includes(movie.title.toLowerCase(), searchInput.toLowerCase())
+      })
+      setLocalMoviesList(filteredList)
+    }
+  }, [searchInput])
+
   const fetchMovies = () => {
       dispatch(setIsLoading(true))
-      axios.get(BASE_URL)
+      axios.get(baseURL)
         .then(response => {
           const moviesResponseData: MovieResponse = response.data
           dispatch(setMoviesList(moviesResponseData.results))
