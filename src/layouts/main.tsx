@@ -60,7 +60,7 @@ export default function Main() {
           moviesResponseData.results.map((movie) => fetchMoviesExtraInfo(movie))
         })
         .catch((error) => console.log("ERROR: ", error))
-        // .finally(() =>  dispatch(setIsLoading(false)))
+        .finally(() =>  dispatch(setIsLoading(false)))
   }
 
   const fetchMoviesExtraInfo = (movie: Movie): Movie => {
